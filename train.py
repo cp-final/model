@@ -9,9 +9,11 @@ import fasttext.util
 from sklearn.cluster import KMeans
 from sklearn.model_selection import train_test_split
 import pickle
+import sys
 
+csv_name = sys.argv[1]
 
-df = pd.read_csv('200k_train.csv')
+df = pd.read_csv(csv_name)
 apps_df = pd.read_csv('apps_id.csv')
 print("Reading CSV")
 
@@ -62,9 +64,9 @@ def clear_csv(df):
     for i, item in enumerate(df['created']):
       time = datetime.strptime(item, "%Y-%m-%d %H:%M:%S")
       df.loc[i, 'created'] = int(time.hour)
+      print(i)
       if df['os'][i] == "ios":
           app_name = get_ios_app(df['bundle'][i])
-          print(app_name)
           if not app_name.empty:
               df.loc[i, 'bundle'] = str(app_name)
 
@@ -159,9 +161,9 @@ X = new_dataframe.drop('Segment', axis=1)
 X_train, X_test, y_train, y_test = train_test_split(X, Y, test_size=0.10, random_state=42)
 
 print("Start learning NN")
-clf = MLPClassifier(random_state=1, max_iter=300, verbose=1, solver = 'adam', learning_rate='adaptive', hidden_layer_sizes=(120), activation='logistic', learning_rate_init=0.001).fit(X_train, y_train)
+clf = MLPClassifier(random_state=1, max_iter=300, verbose=1, solver = 'adam', learning_rate='adaptive', hidden_layer_sizes=(240), activation='logistic', learning_rate_init=0.001).fit(X_train, y_train)
 
-filename = 'model0.64.mdl'
+filename = 'models/new_model_last.mdl'
 pickle.dump(clf, open(filename, 'wb'))
 
 y_test_np = y_test.to_numpy()

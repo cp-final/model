@@ -11,11 +11,14 @@ import fasttext.util
 from sklearn.cluster import KMeans
 from sklearn.model_selection import train_test_split
 import pickle
+import sys
 
 
 loaded_model = pickle.load(open('models/model_200k_mlp.mdl', 'rb'))
 
-df = pd.read_csv('test.csv')[:200000]
+csv_name = sys.argv.get(1)
+
+df = pd.read_csv(csv_name)
 df_copy = df.copy()
 apps_df = pd.read_csv('apps_id.csv')
 print("Reading CSV")
