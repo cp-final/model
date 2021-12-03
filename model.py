@@ -14,9 +14,9 @@ import pickle
 import sys
 
 
-loaded_model = pickle.load(open('models/model_200k_mlp.mdl', 'rb'))
+loaded_model = pickle.load(open('models/model_450k_240_mlp.mdl', 'rb'))
 
-csv_name = sys.argv.get(1)
+csv_name = sys.argv[1]
 
 df = pd.read_csv(csv_name)
 df_copy = df.copy()
